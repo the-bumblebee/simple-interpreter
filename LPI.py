@@ -95,7 +95,7 @@ class Parser(object):
             self.error()
 
     # Grammar:
-    #   factor: INTEGER | LAPREN expr RPAREN
+    #   factor: (PLUS | MINUS) factor | INTEGER | LAPREN expr RPAREN
     #   term: factor((MUL/DIV)factor)*
     #   expr: term((PLUS/MINUS)term)*
     # Each method below corresponds to
@@ -105,7 +105,15 @@ class Parser(object):
 
         token = self.currentToken
 
-        if token.type == INTEGER:
+        if token.type == PLUS:
+            self.expect(PLUS)
+            node = UnaryOperator(token, self.factor())
+            return node
+        elif token.type == MINUS:
+            self.expect(MINUS)
+            node = UnaryOperator(token, self.factor())
+            return node
+        elif token.type == INTEGER:
             self.expect(INTEGER)
             return Num(token)
         elif token.type == LPAREN:
@@ -168,6 +176,12 @@ class Interpreter(object):
 
     def visitNum(self, node):
         return node.value
+
+    def visitUnaryOperator(self, node):
+        if node.token.type == PLUS:
+            return +self.visit(node.expr)
+        elif node.token.type == MINUS:
+            return -self.visit(node.expr)
 
     def evaluate(self):
         tree = self.parser.parse()

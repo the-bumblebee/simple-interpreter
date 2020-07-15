@@ -5,10 +5,10 @@ https://ruslanspivak.com/lsbasi-part1/
 The interpreter is just a step towards the end goal of creating an interpreted language.
 
 ## Source files
-### [Completed Part-7]
+### [Completed Part-8]
 
 #### Note:
-Old source files are stored in directories with naming convention `/old/part<n>`, where n denotes the part completed. For example, `/old/part6` implies that the folder contains source files when part '6' of the tutorial is completed. Do note that the repo contains only files for major parts of the tutorial. Each directory contains a `README.md` file tat explains the code in the directory. Current complete part and the code explanation is provided here.
+Old source files are stored in directories with naming convention `/old/part<n>`, where n denotes the part completed. For example, `/old/part6` implies that the folder contains source files when part '6' of the tutorial is completed. Do note that the repo contains only files for major parts of the tutorial. Each directory contains a `README.md` file that explains the code in the directory. Current complete part and the code explanation is provided here.
 
 
 ### 1. LPI.py
@@ -16,7 +16,10 @@ This is a python module containing the Lexer, the Parser and the Interpreter (an
 
 eg: 12 + 54 * (3 + 67)
 
-The only difference from part 6, here, is that the program now represents the expression as an AST (Abstract Sybtax Tree) before evaluating the expression. This is so that, it'll be easier for the interpreter to interpret the input as we progress. The parser and interpreter are now separated and have respective classes of thier own. Do note that, at this stage, only positive numbers are supported. It has the functionality of a basic calculator but only for positive numbers.
+The program now represents the expression as an AST (Abstract Sybtax Tree) before evaluating the expression. This is so that, it'll be easier for the interpreter to interpret the input as we progress. The parser and interpreter are now separated and have respective classes of thier own.
+Support for unary operators have been added, which allows the use of negative numbers.
+eg: 12 + -45, evaluated to 12 - 45, that is, -33
+    45 - -----23, evaluated to 43 + 28, that is 63
 
 ### 2. AST.py
 This module defines all the tree nodes for constructing the AST before the interpreter could interpret it. A base class called `AST` is defined, from which, remaining classes (AST nodes) are derived. Currently, it has an `Operator` class for specifying the operation and a `Num` clas for the numbers.
